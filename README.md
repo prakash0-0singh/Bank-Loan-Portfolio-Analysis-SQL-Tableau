@@ -1,218 +1,202 @@
-# Bank Loan Portfolio Analysis | SQL & Tableau
+# Bank Loan Portfolio Analysis
+### Exploring lending activity and loan performance with SQL and Tableau
 
-A learning project exploring bank loan portfolios through SQL analysis
-and interactive Tableau dashboards.
+## What Is This Project?
 
-The analysis covers lending activity, funded amounts, payments received,
-loan statuses, and borrower segments across three dashboard views:
+This project explores a bank loan dataset to understand how lending
+activity varies over time, how funding is distributed across borrower
+segments, and how loans are classified by repayment status.
+
+It combines SQL analysis with three Tableau dashboard views:
 Summary, Overview, and Details.
 
+The aim is to make portfolio information easier to explore—from
+high-level measures such as funded amounts to the individual records
+behind those measures.
 
-## Business Questions
+![Dashboard summary](Assets/Screenshots/summary.png)
 
-- How do loan applications and funded amounts change over time?
-- How is lending distributed across regions and loan purposes?
-- How do portfolio measures differ across borrower segments?
-- What proportion of recorded loans is current, fully paid, or charged off?
-- Which patterns warrant further investigation?
+## Why This Project?
 
-## Tools and Technologies
+A portfolio can grow in loan volume without showing an equivalent
+improvement in repayment outcomes. Looking at applications or funded
+amounts alone therefore gives an incomplete picture.
 
-| Tool | Role in the project |
+This project brings lending activity and loan-status information
+together to explore questions such as:
+
+- Is lending increasing or decreasing over time?
+- Which loan purposes account for the largest share of funding?
+- How does the portfolio differ across borrower segments?
+- How much of the observed portfolio is current, fully paid,
+  or charged off?
+- Which patterns deserve closer investigation?
+
+As a learning project, it connects SQL-based analysis with interactive
+Tableau reporting in a financial-services context.
+
+## Tools Used
+
+| Tool | Purpose |
 |---|---|
-| SQL | Querying loan records and calculating portfolio measures |
-| Tableau | Interactive dashboards, calculated metrics, and visual exploration |
-| Excel | Reviewing the reference query outputs |
-| CSV | Storing the loan dataset |
+| SQL | Aggregate loan records and calculate portfolio measures |
+| Tableau | Visualize trends, compare segments, and explore records |
+| Excel | Review the supplied query outputs |
+| CSV | Store the underlying loan data |
 
-## Dataset
+## Analytical Approach
 
-The original project describes the data as U.S. bank loan records
+### 1. Understand the Data
+
+The analysis uses loan records containing information about loan amounts,
+payments received, issue dates, interest rates, borrower characteristics,
+and loan status.
+
+The original project describes the dataset as U.S. bank loan data
 for 2021.
 
-The dataset supports analysis by dimensions such as:
+Key dimensions used for exploration include:
 
-- Loan issue date and loan status
-- Loan purpose and term
+- Loan purpose
+- Loan term
 - Borrower location
 - Employment length
 - Home ownership
 - Loan grade
 - Verification status
+- Loan status
 
-**Dataset:** [financial_loan.csv](Assets/financial_loan.csv)
+Understanding these fields matters because each answers a different
+business question. Loan purpose explains the composition of lending,
+while loan status describes the recorded repayment position.
 
-The dataset’s collection methodology and representativeness have not
-been independently verified in this repository. Results should be
-interpreted within the scope of the supplied records.
+### 2. Examine Portfolio Measures with SQL
 
-## Dashboard Preview
+The SQL component calculates measures used to describe the portfolio,
+including:
 
-The screenshots below show the reference dashboards included
-with the source project.
+- Loan application counts
+- Total funded amount
+- Total amount received
+- Average interest rate
+- Average debt-to-income ratio
+- Loan-status distributions
+- Monthly and segment-level summaries
 
-### Summary Dashboard
+These measures provide a structured basis for exploring the dashboard
+and reviewing how its totals are defined.
 
-Provides a portfolio-level view of loan applications, funded amounts,
-payments received, average interest rate, and average debt-to-income
-ratio. It also includes monthly comparisons and loan-status summaries.
+[View the SQL queries](Assets/BankLoanDataAnalysisProject-SQL%20Queries.sql)
+
+### 3. Organize the Analysis into Three Dashboard Views
+
+The dashboard separates portfolio monitoring, segment exploration,
+and record-level inspection into three views.
+
+#### Summary: Understand the Overall Portfolio
+
+The Summary dashboard presents headline measures and loan-status
+breakdowns.
+
+It helps the viewer assess the scale of lending and review how the
+recorded portfolio is distributed across repayment statuses.
 
 ![Summary dashboard](Assets/Screenshots/summary.png)
 
-### Overview Dashboard
+#### Overview: Explore Trends and Segments
 
-Explores lending activity across time, geography, loan terms,
-employment length, loan purpose, and home ownership.
+The Overview dashboard compares lending activity across time,
+geography, loan purpose, loan term, and borrower characteristics.
+
+It helps answer where lending is concentrated and which segments
+account for different portions of the portfolio.
 
 ![Overview dashboard](Assets/Screenshots/overview.png)
 
-### Details Dashboard
+#### Details: Inspect the Underlying Records
 
-Provides a record-level view for examining individual loans and
-reviewing the records behind portfolio summaries.
+The Details dashboard provides a loan-level table for examining
+individual records behind the aggregate measures.
+
+This view supports closer inspection when a pattern in the summary
+or overview requires more context.
 
 ![Details dashboard](Assets/Screenshots/details.png)
 
-### Dashboard Layout
+### 4. Support Interactive Exploration
 
-![Dashboard layout](Assets/dashboard_outline.jpg)
+Filters for purpose, grade, and verification status allow the viewer
+to narrow the analysis to selected groups.
 
-## Dashboard Interactions
+Interactive selections connect the portfolio overview with more
+specific segments, while the details table supports record-level
+inspection.
 
-The reference implementation includes:
+## How to Interpret the Analysis
 
-- Filters for loan purpose, grade, and verification status.
-- Interactive selections for exploring portfolio segments.
-- A detailed table for inspecting individual loan records.
+The dashboard supports descriptive analysis. It helps identify patterns
+and questions for further investigation, rather than predicting
+individual loan outcomes.
 
-These features support exploration from portfolio summaries
-to individual records.
+Three distinctions are particularly important:
 
-## Key Measures
+### Current Does Not Mean Fully Repaid
 
-| Measure | Analytical purpose |
-|---|---|
-| Loan applications | Understand lending volume |
-| Total funded amount | Measure the value of loans issued |
-| Total amount received | Review recorded payments |
-| Average interest rate | Compare pricing across the selected records |
-| Average debt-to-income ratio | Describe borrower debt burden |
-| Loan-status distribution | Compare current, fully paid, and charged-off records |
-| Monthly comparisons | Examine changes in lending activity |
+The reference dashboard groups Current and Fully Paid loans under
+“Good Loan.”
 
-Exact aggregation logic should be reviewed in the SQL queries
-and Tableau calculations before interpreting results.
+A current loan is still outstanding. This grouping should not be
+interpreted as proof that all those loans will be successfully repaid.
 
-## Interpretation and Limitations
+### Payments Received Are Not Profit
 
-### Loan-status labels
+Payments received and funded amounts describe different aspects of
+the loan portfolio.
 
-The reference implementation groups Fully Paid and Current loans
-under “Good Loan.”
+Subtracting funded amounts from payments received does not establish
+profitability because it does not account fully for timing, remaining
+balances, funding costs, or operating expenses.
 
-Current loans are still outstanding. They should not be interpreted
-as completed repayments or guaranteed successful outcomes.
+### Segment Differences Need Context
 
-### Charged-off share
+A higher charged-off share in one segment does not, by itself, explain
+why the difference exists.
 
-The share of charged-off loans describes the observed dataset.
-It is not a prediction of future default.
+Loan age, borrower mix, and the number of observations should be
+considered before drawing conclusions.
 
-Comparisons across segments may be affected by differences in
-loan age, borrower characteristics, and portfolio composition.
+## What This Project Demonstrates
 
-### Payments and profitability
+The project illustrates how SQL and Tableau can work together to:
 
-The difference between payments received and funded amounts
-is not a measure of profit. It does not fully account for timing,
-outstanding balances, funding costs, or other expenses.
+- Translate business questions into measurable portfolio indicators.
+- Present headline measures alongside segment-level detail.
+- Make loan records accessible through interactive reporting.
+- Explain the limitations of financial metrics and status labels.
 
-### Descriptive analysis
-
-Dashboard patterns show associations within the supplied records.
-They do not establish causal relationships or independently
-justify lending decisions.
+Independent SQL-to-Tableau reconciliation and personal implementation
+changes are not yet documented in this repository.
 
 ## Project Files
 
-| Asset | File |
+| Resource | Link |
 |---|---|
-| Dataset | [Loan records](Assets/financial_loan.csv) |
-| SQL analysis | [SQL queries](Assets/BankLoanDataAnalysisProject-SQL%20Queries.sql) |
-| Query results | [Excel results](Assets/BankLoanDataAnalysisProject-Query%20Results.xlsx) |
-| Tableau workbook | [Tableau workbook](Assets/BankLoanDataAnalysisProject-Tableau%20Visualization.twb) |
-| Dashboard screenshots | [Screenshots folder](Assets/Screenshots) |
-| Dashboard layout | [Layout image](Assets/dashboard_outline.jpg) |
+| Dataset | [financial_loan.csv](Assets/financial_loan.csv) |
+| SQL queries | [Portfolio analysis queries](Assets/BankLoanDataAnalysisProject-SQL%20Queries.sql) |
+| Reference query results | [Excel workbook](Assets/BankLoanDataAnalysisProject-Query%20Results.xlsx) |
+| Tableau workbook | [Open or download the workbook](Assets/BankLoanDataAnalysisProject-Tableau%20Visualization.twb) |
+| Screenshots | [Dashboard images](Assets/Screenshots) |
 
 ## How to Explore the Project
 
-1. Review the dashboard screenshots in this README.
-2. Open the SQL file to inspect the queries and metric definitions.
-3. Select **Code → Download ZIP** to download the repository.
-4. Extract the ZIP.
-5. Open the `.twb` workbook in a compatible Tableau application.
-6. If Tableau reports a missing data connection, reconnect it to:
-   `Assets/financial_loan.csv`.
-7. Confirm that the fields map correctly and the dashboard views load.
+1. Review the dashboard screenshots above.
+2. Open the SQL file to inspect the queries.
+3. Download the repository using **Code → Download ZIP**.
+4. Extract the downloaded folder.
+5. Open the Tableau workbook in a compatible Tableau application.
+6. If the original data connection is unavailable, reconnect the
+   workbook to `Assets/financial_loan.csv`.
+7. Explore the dashboard filters and record-level details.
 
-The workbook may retain connection settings from the original
-author’s environment. SQL table names and syntax may also need
-adjustment for your database.
-
-## Validation Status
-
-The Excel workbook contains query outputs supplied with the
-reference project. These are reference results, rather than
-independently reproduced validation documented by this repository.
-
-Independent validation should compare SQL and Tableau using
-identical populations, filters, and metric definitions.
-
-| Check | Current documentation status |
-|---|---|
-| Distinct loan count | Independent comparison not yet documented |
-| Total funded amount | Independent comparison not yet documented |
-| Total received amount | Independent comparison not yet documented |
-| Loan-status counts and shares | Independent comparison not yet documented |
-| Monthly totals | Independent comparison not yet documented |
-| Selected segment totals | Independent comparison not yet documented |
-
-Any differences should be investigated before recording a check
-as passed.
-
-## Repository Contributions
-
-The work currently documented in this repository consists of:
-
-- Organizing the reference assets for accessible review.
-- Documenting the business questions and dashboard structure.
-- Explaining interpretation limitations.
-- Outlining checks for independent validation.
-
-The original analysis and dashboard implementation are credited
-to the source author. Further implementation changes and independently
-verified findings will be documented as they are completed.
-
-## Planned Extensions
-
-- Inspect missing values, duplicate identifiers, and data types.
-- Run the SQL queries and reproduce the reference results.
-- Compare SQL results with Tableau dashboard values.
-- Present Current, Fully Paid, and Charged Off loans separately.
-- Document two or three numerical findings and a supported recommendation.
-
-These items describe planned work, not completed achievements.
-
-## References and Attribution
-
-**Original project:**  
-[MengLi00Julia — Bank Loan Data Analysis](https://github.com/MengLi00Julia/bank-loan-data-analysis)
-
-**Original author’s interactive dashboard:**  
-[Bank Loan Data Analysis on Tableau Public](https://public.tableau.com/app/profile/sylvia.li4170/viz/BankLoanDataAnalysis/SUMMARY)
-
-The linked Tableau Public dashboard belongs to the original author.
-
-Refer to the source repository for its license and reuse terms.
-Preserve the original license and applicable copyright notices
-alongside reused material.
+Database table names and SQL syntax may need adjustment for the
+environment in which the queries are run.
