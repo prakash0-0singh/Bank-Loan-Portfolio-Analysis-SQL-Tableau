@@ -7,11 +7,6 @@ The analysis covers lending activity, funded amounts, payments received,
 loan statuses, and borrower segments across three dashboard views:
 Summary, Overview, and Details.
 
-> **Project attribution:** This repository uses reference assets from
-> [MengLi00Julia’s Bank Loan Data Analysis project](https://github.com/MengLi00Julia/bank-loan-data-analysis).
-> The supplied workbook, SQL queries, query results, and screenshots
-> originate from that project. Their inclusion here does not imply
-> independent authorship.
 
 ## Business Questions
 
